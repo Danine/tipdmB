@@ -1,0 +1,101 @@
+import pickle
+import features
+import os
+
+def getdata(path):
+    data_input = open(npath,'rb')
+    data = pickle.load(data_input)
+    data_input.close()
+    return data
+
+count = 0
+path = u'png'
+document = os.listdir(path)
+peoples = []
+for i in document:
+    ndocu = os.listdir(path + '/' + i)
+    for j in ndocu:
+        try:
+            pngs = os.listdir(path + '/' + i + '/' + j)
+            for k in pngs:
+                npath = path + '/' + i + '/' + j + '/' + k
+                if 'data' in k:
+                    people = []
+                    data = getdata(npath)
+                    fangcha = features.fangcha(data)
+                    people.append(fangcha)
+                    # print('fangcha:', fangcha)
+                    piandu = features.piandu(data)
+                    people.append(piandu)
+                    # print('piandu:', piandu)
+                    fengdu = features.fengdu(data)
+                    people.append(fengdu)
+                    # print('fengdu:', fengdu)
+                    junyunxing = features.junyunxing(data)
+                    people.append(junyunxing)
+                    # print('junyunxing:', junyunxing)
+                    shang = features.shang(data)
+                    people.append(shang)
+                    # print('shang:', shang)
+                    tiji = features.tiji(data)
+                    people.append(tiji)
+                    # print('tiji:', tiji)
+                    CTqujian = features.CTqujian(data)
+                    # people.append()
+                    # print('CTqujian:', CTqujian)
+                    GLCM = features.GLCM(data, CTqujian)
+                    # people.append()
+                    # print('GLCM:', GLCM)
+                    zixiangguan = features.zixiangguan(data, GLCM)
+                    people.append(zixiangguan)
+                    # print('zixiangguan:', zixiangguan)
+                    jiquanqushi = features.jiquanqushi(data, GLCM)
+                    people.append(jiquanqushi)
+                    # print('jiquanqushi:', jiquanqushi)
+                    cuzhuangtuqi = features.cuzhuangtuqi(data, GLCM)
+                    people.append(cuzhuangtuqi)
+                    # print('cuzhuangtuqi:', cuzhuangtuqi)
+                    GLCMjunyunxing = features.GLCMjunyunxing(data, GLCM)
+                    people.append(GLCMjunyunxing)
+                    # print('GLCMjunyunxing:', GLCMjunyunxing)
+                    GLCMshang = features.GLCMshang(data, GLCM)
+                    people.append(GLCMshang)
+                    # print('GLCMshang:', GLCMshang)
+                    IMC1 = features.IMC1(data, GLCM)
+                    people.append(IMC1)
+                    # print('IMC1:', IMC1)
+                    GLRL = features.GLRL(data, CTqujian)
+                    # people.append()
+                    # print('GLRL:', GLRL)
+                    SRE = features.SRE(data, GLRL)
+                    people.append(SRE)
+                    # print('SRE:', SRE)
+                    LRE = features.LRE(data, GLRL)
+                    people.append(LRE)
+                    # print('LRE:', LRE)
+                    LGLRE = features.LGLRE(data, GLRL)
+                    people.append(LGLRE)
+                    # print('LGLRE:', LGLRE)
+                    HGLRE = features.HGLRE(data, GLRL)
+                    people.append(HGLRE)
+                    # print('HGLRE:', HGLRE)
+                    GLN = features.GLN(data, GLRL)
+                    people.append(GLN)
+                    # print('GLN:', GLN)
+                    RLN = features.RLN(data, GLRL)
+                    people.append(RLN)
+                    # print('RLN:', RLN)
+                    RP = features.RP(data, GLRL)
+                    people.append(RP)
+                    # print('RP:', RP)
+                    peoples.append(people)
+                    count += 1
+                    print(count)
+                    data_output = open(path + '/' + i + '/' + 'people.pkl', 'wb')
+                    pickle.dump(people, data_output)
+                    data_output.close()
+        except:
+            print(path + '/' + i)
+data_output = open(path + '/' + i + '/' + 'people.pkl', 'wb')
+pickle.dump(peoples, data_output)
+data_output.close()
